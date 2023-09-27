@@ -1,0 +1,25 @@
+{
+  repository(name: "{{ name }}", owner: "{{ owner }}") {
+    defaultBranchRef {
+      target {
+        ... on Commit {
+          history(first: 1, after: "{{ cursor }}") {
+            nodes {
+              message
+              committedDate
+              author {
+                user {
+                  login
+                }
+              }
+            }
+            totalCount
+            pageInfo {
+              endCursor
+            }
+          }
+        }
+      }
+    }
+  }
+}

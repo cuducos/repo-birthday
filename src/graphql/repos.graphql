@@ -1,0 +1,22 @@
+query {
+  user(login: "{{ username }}") {
+    repositories(
+            first: 100,
+            privacy: PUBLIC,
+            {% if cursor != "" %}
+            after: "{{ cursor }}",
+            {% endif %}
+    ) {
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+      nodes {
+        name
+        owner {
+          login
+        }
+      }
+    }
+  }
+}
