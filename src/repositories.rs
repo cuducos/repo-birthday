@@ -41,13 +41,7 @@ pub async fn repos_for(client: &GitHubGraphQL, username: &str) -> Result<Vec<Rep
         let body: Response = serde_json::from_str(&response)?;
         repos.extend(body.data.user.repositories.nodes);
         has_next_page = body.data.user.repositories.page_info.has_next_page;
-        cursor = body
-            .data
-            .user
-            .repositories
-            .page_info
-            .end_cursor
-            .clone();
+        cursor = body.data.user.repositories.page_info.end_cursor.clone();
     }
 
     Ok(repos)

@@ -12,10 +12,8 @@ impl std::fmt::Display for FirstCommit {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{} {}/{} {}",
+            "{} {}",
             self.date,
-            self.owner,
-            self.name,
             self.message.lines().next().unwrap_or(""),
         )
     }

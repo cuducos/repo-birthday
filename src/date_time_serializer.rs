@@ -10,4 +10,3 @@ where
     let s = String::deserialize(deserializer)?;
     NaiveDateTime::parse_from_str(&s, DATE_FORMAT).map_err(serde::de::Error::custom)
 }
-

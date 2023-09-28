@@ -11,7 +11,6 @@ use crate::commits::last_commit;
 use crate::graphql::GitHubGraphQL;
 use crate::repositories::repos_for;
 
-
 #[tokio::main]
 async fn main() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
