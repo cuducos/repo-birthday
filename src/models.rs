@@ -41,7 +41,7 @@ fn change_year(original: NaiveDate, year: i32) -> NaiveDate {
 }
 
 impl FirstCommit {
-    pub fn next_aniversary(&self) -> NaiveDate {
+    pub fn next_anniversary(&self) -> NaiveDate {
         let today = Local::now().date_naive();
         let date = self.date.date();
         if today == date {
@@ -56,11 +56,11 @@ impl FirstCommit {
         result
     }
 
-    pub fn days_to_next_aniversary(&self) -> i64 {
-        (self.next_aniversary() - Local::now().date_naive()).num_days()
+    pub fn days_to_next_anniversary(&self) -> i64 {
+        (self.next_anniversary() - Local::now().date_naive()).num_days()
     }
 
     pub fn age(&self) -> i32 {
-        self.next_aniversary().year() - self.date.year()
+        self.next_anniversary().year() - self.date.year()
     }
 }

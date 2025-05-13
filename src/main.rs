@@ -53,11 +53,11 @@ async fn main() -> Result<()> {
         }
     }
 
-    commits.sort_by_key(|commit| commit.days_to_next_aniversary());
+    commits.sort_by_key(|commit| commit.days_to_next_anniversary());
     for commit in commits {
         println!(
             "In {} days {}/{} is turning {} years old: {commit}",
-            commit.days_to_next_aniversary(),
+            commit.days_to_next_anniversary(),
             commit.owner,
             commit.name,
             commit.age(),
