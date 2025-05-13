@@ -10,5 +10,8 @@ $ cargo run -- <your GitHub username>
 
 For example, for my case, `cargo run -- cuducos`.
 
-> [!WARNING]
-> If you have too many repos, maybe the API will complain about too many requests. This is a known bug.
+Or with the `--ical`  option you can create a `.ical` file to add to your calendar:
+
+```console
+$ cargo run -- <your GitHub username> --ical
+```

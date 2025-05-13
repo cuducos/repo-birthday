@@ -7,6 +7,7 @@ edition = "2021"
 anyhow = "1.0.98"
 async-recursion = "1.1.1"
 chrono = "0.4.41"
+icalendar = "0.16.13"
 liquid = "0.26.11"
 reqwest = { version = "0.12.15", features = ["json"] }
 serde = "1.0.219"
