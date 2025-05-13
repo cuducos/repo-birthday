@@ -3,14 +3,12 @@ name = "repo-birthday"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-anyhow = "1.0.72"
-async-recursion = "1.0.4"
-chrono = "0.4.26"
-liquid = "0.26.4"
-reqwest = { version = "0.11.18", features = ["json"] }
-serde = "1.0.183"
-serde_json = "1.0.104"
+anyhow = "1.0.98"
+async-recursion = "1.1.1"
+chrono = "0.4.41"
+liquid = "0.26.11"
+reqwest = { version = "0.12.15", features = ["json"] }
+serde = "1.0.219"
+serde_json = "1.0.140"
 tokio = { version = "1.30.0", features = ["macros", "rt-multi-thread"] }
