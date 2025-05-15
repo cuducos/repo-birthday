@@ -1,17 +1,42 @@
 # `repo-birthday` 🎂
 
-Tells when your repos are celebrating their birthdays — and their age.
+Gives you a calendar to let you know when your repos are celebrating their birthdays — and their age.
 
-Requires an environment variable `GITHUB_ACCESS_TOKEN` with a GitHub token with ` public_repo` scope.
+Just access the URL, log in with GitHub and add your `.ical` URL to your calendar app — or share with your geek friends!
+
+## Contributing
+
+### Environment variables
+
+`repo-birthday` requires some environment variables to access GitHub and to Cloudflare's KV (the storage):
+
+#### Required
+
+| Name | Description |
+|---|---|
+| `SECRET_KEY` | Used in the encryption/decryption when saving users' GitHub access token into the storage (a random long string will do it) |
+| `GITHUB_APP_CLIENT_ID` | GitHub app client ID |
+| `GITHUB_APP_SECRET` | GitHub app's secret |
+| `CLOUDFLARE_ACCOUNT_ID` | Your Cloudflare's account ID |
+| `CLOUDFLARE_API_TOKEN` | Your Cloudflare's API token (must have write permissions to KV) |
+| `CLOUDFLARE_KV_NAMESPACE` | The ID of the KV namespace to use for this project |
+
+#### Optional
+
+
+| Name | Description |
+|---|---|
+| `PORT` | Which port the web server will listen |
+| `DOMAIN` | The domain where your server is running (e.g. `repobirth.day`) |
+
+### Running the server
 
 ```console
-$ cargo run -- <your GitHub username>
+cargo run
 ```
 
-For example, for my case, `cargo run -- cuducos`.
-
-Or with the `--ical`  option you can create a `.ical` file to add to your calendar:
+### After editing code
 
 ```console
-$ cargo run -- <your GitHub username> --ical
+cargo fmt && cargo clippy --fix --allow-dirty --allow-staged && cargo check
 ```

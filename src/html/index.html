@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Repo Birthday 🎂</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+        <style type="text/css">
+            div.column { margin-top: 3rem }
+            h1 span {
+                display: block;
+                font-size: 7rem;
+                margin-bottom: 3rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="ui middle aligned center aligned grid">
+            <div class="column">
+                <h1>
+                    <span>🎂</span>
+                    Repo Birthday
+                </h1>
+                <h2>Know when your repos are celebrating their birthdays!</h2>
+                <p>Login with GitHub — we only read public repos but we need your permission to query on our behalf.</p>
+                {% if username %}
+                <p>Now just add the <code>.ical</code> URL to your favorite calendar!</p>
+                <p>
+                <a class="ui large purple basic label" href="{{ url }}/{{ username }}.ical">
+                    <i class="calendar icon"></i>
+                    {{ url }}/{{ username }}.ical
+                </a>
+                <p>
+                {% else %}
+                <p>
+                <a class="ui purple button" href="https://github.com/login/oauth/authorize?client_id={{ client_id }}">
+                    <i class="github icon"></i>
+                    Login with GitHub
+                </a>
+                <p>
+                {% endif %}
+            </div>
+        </div>
+    </body>
+</html>

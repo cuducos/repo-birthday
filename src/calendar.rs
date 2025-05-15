@@ -1,9 +1,8 @@
-use anyhow::Result;
 use icalendar::{Calendar, Component, Event, EventLike};
 
 use crate::models::FirstCommit;
 
-pub fn calendar_from(username: &str, commits: &mut Vec<FirstCommit>) -> Calendar {
+pub fn calendar_from(username: &str, commits: &[FirstCommit]) -> Calendar {
     let mut calendar = Calendar::new();
     let calendar =
         calendar.name(format!("{}'s  GitHub repository anniversaries", username).as_str());
@@ -21,13 +20,4 @@ pub fn calendar_from(username: &str, commits: &mut Vec<FirstCommit>) -> Calendar
         calendar.push(event);
     }
     calendar.done()
-}
-
-pub fn to_ical(username: &str, calendar: Calendar) -> Result<String> {
-    let filename = format!("{}.ical", username);
-    if std::path::Path::new(&filename).exists() {
-        panic!("File {} already exists", filename);
-    }
-    std::fs::write(&filename, calendar.to_string())?;
-    Ok(filename)
 }

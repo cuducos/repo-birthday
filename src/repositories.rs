@@ -9,8 +9,10 @@ pub struct Owner {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Repository {
     pub name: String,
+    pub is_fork: bool,
     pub owner: Owner,
 }
 
@@ -18,6 +20,7 @@ impl Clone for Repository {
     fn clone(&self) -> Self {
         Self {
             name: self.name.clone(),
+            is_fork: self.is_fork,
             owner: Owner {
                 login: self.owner.login.clone(),
             },
@@ -39,7 +42,14 @@ pub async fn repos_for(client: &GitHubGraphQL, username: &str) -> Result<Vec<Rep
     while has_next_page {
         let response = client.repos(username, cursor.as_str()).await?;
         let body: Response = serde_json::from_str(&response)?;
-        repos.extend(body.data.user.repositories.nodes);
+        repos.extend(
+            body.data
+                .user
+                .repositories
+                .nodes
+                .into_iter()
+                .filter(|r| !r.is_fork),
+        );
         has_next_page = body.data.user.repositories.page_info.has_next_page;
         cursor = body.data.user.repositories.page_info.end_cursor.clone();
     }

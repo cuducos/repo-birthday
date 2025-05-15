@@ -13,6 +13,7 @@ query {
       }
       nodes {
         name
+        isFork
         owner {
           login
         }

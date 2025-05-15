@@ -1,37 +1,19 @@
-use anyhow::{anyhow, Result};
+use crate::templates::TEMPLATES;
+use anyhow::Result;
 use async_recursion::async_recursion;
-use liquid::{ParserBuilder, Template};
 
 const GITHUB_GRAPHQL_URL: &str = "https://api.github.com/graphql";
-const REPOS_QUERY: &str = include_str!("graphql/repos.graphql");
-const CURSOR_QUERY: &str = include_str!("graphql/cursor.graphql");
-const LAST_COMMIT_QUERY: &str = include_str!("graphql/last_commit.graphql");
 const DEFAULT_WAIT: u64 = 3;
-
-struct Templates {
-    repos: Template,
-    cursor: Template,
-    last_commit: Template,
-}
 
 pub struct GitHubGraphQL {
     api_key: String,
-    templates: Templates,
 }
 
 impl GitHubGraphQL {
-    pub fn new() -> Result<Self> {
-        let parser = ParserBuilder::with_stdlib().build()?;
-
-        Ok(GitHubGraphQL {
-            api_key: std::env::var("GITHUB_ACCESS_TOKEN")
-                .map_err(|e| anyhow!("GITHUB_ACCESS_TOKEN environment variable not found: {e}"))?,
-            templates: Templates {
-                repos: parser.parse(REPOS_QUERY)?,
-                cursor: parser.parse(CURSOR_QUERY)?,
-                last_commit: parser.parse(LAST_COMMIT_QUERY)?,
-            },
-        })
+    pub fn new(api_key: &str) -> Self {
+        GitHubGraphQL {
+            api_key: api_key.to_string(),
+        }
     }
 
     #[async_recursion]
@@ -77,7 +59,7 @@ impl GitHubGraphQL {
             "username": username,
             "cursor": cursor,
         });
-        let query = self.templates.repos.render(&context)?;
+        let query = TEMPLATES.graphql.repos.render(&context)?;
         let resp = self.request(query).await?;
 
         Ok(resp.text().await?)
@@ -88,7 +70,7 @@ impl GitHubGraphQL {
             "name": name,
             "owner": owner,
         });
-        let query = self.templates.cursor.render(&context)?;
+        let query = TEMPLATES.graphql.cursor.render(&context)?;
         let resp = self.request(query).await?;
 
         Ok(resp.text().await?)
@@ -100,7 +82,7 @@ impl GitHubGraphQL {
             "owner": owner,
             "cursor": cursor,
         });
-        let query = self.templates.last_commit.render(&context)?;
+        let query = TEMPLATES.graphql.last_commit.render(&context)?;
         let resp = self.request(query).await?;
 
         Ok(resp.text().await?)
