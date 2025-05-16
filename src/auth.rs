@@ -52,8 +52,14 @@ pub async fn token_for(client: &Client, code: &str) -> anyhow::Result<String> {
         );
         return Err(anyhow!("Error getting access token"));
     }
-    let data = res.json::<AccessToken>().await?;
-    Ok(data.access_token)
+    let body = res.text().await?;
+    match serde_json::from_str::<AccessToken>(&body) {
+        Ok(data) => Ok(data.access_token),
+        Err(e) => {
+            eprintln!("{}: {}", e, body);
+            Err(anyhow!("{}", e))
+        }
+    }
 }
 
 pub async fn username_for(client: &Client, token: &str) -> anyhow::Result<String> {
@@ -72,6 +78,12 @@ pub async fn username_for(client: &Client, token: &str) -> anyhow::Result<String
         );
         return Err(anyhow!("Error getting username"));
     }
-    let data = res.json::<UserInfo>().await?;
-    Ok(data.login)
+    let body = res.text().await?;
+    match serde_json::from_str::<UserInfo>(&body) {
+        Ok(data) => Ok(data.login),
+        Err(e) => {
+            eprintln!("{}: {}", e, body);
+            Err(anyhow!("{}", e))
+        }
+    }
 }

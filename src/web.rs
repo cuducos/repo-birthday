@@ -67,7 +67,7 @@ fn context(username: Option<&String>) -> anyhow::Result<liquid::Object> {
         DEFAULT_IP,
         envvar::get("PORT").unwrap_or(DEFAULT_PORT.to_string())
     ));
-    let protocol = if domain.starts_with(DEFAULT_IP){
+    let protocol = if domain.starts_with(DEFAULT_IP) {
         "http"
     } else {
         "https"
