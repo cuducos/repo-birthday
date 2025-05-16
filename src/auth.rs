@@ -16,10 +16,10 @@ struct UserInfo {
     login: String,
 }
 
-#[derive(Deserialize, Debug)]
-struct AccessToken {
-    access_token: String,
-}
+// #[derive(Deserialize, Debug)]
+// struct AccessToken {
+//     access_token: String,
+// }
 
 pub async fn token_for(client: &Client, code: &str) -> anyhow::Result<String> {
     let params = [
@@ -33,10 +33,10 @@ pub async fn token_for(client: &Client, code: &str) -> anyhow::Result<String> {
         .header("User-Agent", USER_AGENT)
         .form(&params)
         .send()
-        .await?
-        .json::<AccessToken>()
         .await?;
-    Ok(res.access_token)
+    let body = res.text().await?;
+    println!("{}", &body);
+    Ok("test".to_string())
 }
 
 pub async fn username_for(client: &Client, token: &str) -> anyhow::Result<String> {
