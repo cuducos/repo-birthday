@@ -21,11 +21,15 @@ struct UserInfo {
 //     access_token: String,
 // }
 
+pub fn github_client_id() -> Result<String> {
+    envvar::get("GITHUB_APP_CLIENT_ID")
+}
+
 pub async fn token_for(client: &Client, code: &str) -> anyhow::Result<String> {
     let params = [
-        ("code", code),
-        ("client_id", GITHUB_APP_ID.as_ref()),
-        ("client_secret", GITHUB_APP_SECRET.as_ref()),
+        ("code", code.to_string()),
+        ("client_id", github_client_id()?),
+        ("client_secret", GITHUB_APP_SECRET.to_string()),
     ];
     let res = client
         .post("https://github.com/login/oauth/access_token")
@@ -50,8 +54,4 @@ pub async fn username_for(client: &Client, token: &str) -> anyhow::Result<String
         .json::<UserInfo>()
         .await?;
     Ok(res.login)
-}
-
-pub fn github_client_id() -> Result<String> {
-    envvar::get("GITHUB_APP_CLIENT_ID")
 }
