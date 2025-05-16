@@ -1,14 +1,9 @@
 use crate::envvar;
 use anyhow::{anyhow, Result};
-use lazy_static::lazy_static;
 use reqwest::Client;
 use serde::{Deserialize, Serialize};
 
 const USER_AGENT: &str = "github.com/cuducos/repo-birthday";
-
-lazy_static! {
-    static ref GITHUB_APP_SECRET: String = envvar::get("GITHUB_APP_SECRET").unwrap();
-}
 
 #[derive(Deserialize)]
 struct UserInfo {
@@ -35,7 +30,7 @@ pub async fn token_for(client: &Client, code: &str) -> anyhow::Result<String> {
     let params = ExchangeToken {
         code: code.to_string(),
         client_id: github_client_id()?,
-        client_secret: envvar::get("GITHUB_APP_CLIENT_ID")?,
+        client_secret: envvar::get("GITHUB_APP_SECRET")?,
     };
     let res = client
         .post("https://github.com/login/oauth/access_token")
